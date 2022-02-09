@@ -4,8 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class MarketDataSource {
     private SQLiteDatabase database;
@@ -102,6 +104,71 @@ public class MarketDataSource {
             lastID = -1;
         }
         return lastID;
+    }
 
+    public ArrayList<Market> getMarkets() {
+        ArrayList<Market> markets = new ArrayList<Market>();
+        try {
+            String query = "SELECT * FROM market";
+            Cursor cursor = database.rawQuery(query, null);
+
+            Market newMarket;
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                newMarket = new Market();
+                newMarket.setMarketID(cursor.getInt(0));
+                newMarket.setMarketName(cursor.getString(1));
+                newMarket.setStreetAddress(cursor.getString(2));
+                newMarket.setCity(cursor.getString(3));
+                newMarket.setState(cursor.getString(4));
+                newMarket.setZipCode(cursor.getString(5));
+                newMarket.setLiquorRating(cursor.getFloat(6));
+                newMarket.setMeatRating(cursor.getFloat(7));
+                newMarket.setProduceRating(cursor.getFloat(8));
+                newMarket.setCheeseRating(cursor.getFloat(9));
+                newMarket.setCheckoutRating(cursor.getFloat(10));
+                newMarket.setAverageRating(cursor.getString(11));
+                markets.add(newMarket);
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        catch (Exception e){
+            markets = new ArrayList<Market>();
+        }
+        return markets;
+    }
+
+    public Market getSpecificMarket(int marketId){
+        Market market = new Market();
+        String query = "SELECT * FROM market WHERE _id =" + marketId;
+        Cursor cursor = database.rawQuery(query, null);
+        if(cursor.moveToFirst()){
+            market.setMarketID(cursor.getInt(0));
+            market.setMarketName(cursor.getString(1));
+            market.setStreetAddress(cursor.getString(2));
+            market.setCity(cursor.getString(3));
+            market.setState(cursor.getString(4));
+            market.setZipCode(cursor.getString(5));
+            market.setLiquorRating(cursor.getFloat(6));
+            market.setMeatRating(cursor.getFloat(7));
+            market.setProduceRating(cursor.getFloat(8));
+            market.setCheeseRating(cursor.getFloat(9));
+            market.setCheckoutRating(cursor.getFloat(10));
+            market.setAverageRating(cursor.getString(11));
+
+            cursor.close();
+        }
+        return market;
+    }
+    public boolean deleteMarket (int marketId) {
+        boolean didDelete = false;
+        try{
+            didDelete = database.delete("market", "_id=" + marketId,null) >0;
+        }
+        catch (Exception e) {
+            //Do nothing -return value is already set to false
+        }
+        return didDelete;
     }
 }

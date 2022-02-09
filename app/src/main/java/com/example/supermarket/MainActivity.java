@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.Serializable;
 
@@ -28,7 +29,6 @@ public class MainActivity extends AppCompatActivity  {
         initTextChangedEvents();
         initSaveButton();
     }
-
     private void initRateButton() {
         Button changeRating = findViewById(R.id.ratingButton);
         changeRating.setOnClickListener(new View.OnClickListener() {
@@ -168,4 +168,27 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
     }
+    /* private void initMarket(int id) {
+        MarketDataSource ds = new MarketDataSource(MainActivity.this);
+        try {
+            ds.open();
+            currentMarket = ds.getSpecificMarket(id);
+            ds.close();
+        } catch (Exception e) {
+            Toast.makeText(this, "Load Market Failed", Toast.LENGTH_LONG).show();
+        }
+        EditText editName = findViewById(R.id.editMarket);
+        EditText editAddress = findViewById(R.id.editAddress);
+        EditText editCity = findViewById(R.id.editCity);
+        EditText editState = findViewById(R.id.editState);
+        EditText editZipCode = findViewById(R.id.editZipcode);
+
+        editName.setText(currentMarket.getMarketName());
+        editAddress.setText(currentMarket.getStreetAddress());
+        editCity.setText(currentMarket.getCity());
+        editState.setText(currentMarket.getState());
+        editZipCode.setText(currentMarket.getZipCode());
+    }
+    /
+     */
 }

@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SuperMarket">
         <activity
-            android:name=".MainActivity"
+            android:name=".MarketListActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,6 +20,9 @@
         </activity>
         <activity
             android:name=".RatingMarketActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
             android:exported="false" />
     </application>
 

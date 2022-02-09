@@ -1,5 +1,4 @@
 package com.example.supermarket;
-import java.util.Calendar;
 
 public class Market {
     private int marketID;
@@ -8,21 +7,21 @@ public class Market {
     private String city;
     private String state;
     private String zipCode;
-    private double liquorRating;
-    private double meatRating;
-    private double produceRating;
-    private double cheeseRating;
-    private double checkoutRating;
-    private double averageRating;
+    private float liquorRating;
+    private float meatRating;
+    private float produceRating;
+    private float cheeseRating;
+    private float checkoutRating;
+    private String averageRating;
 
     public Market(){
         marketID = -1;
-        liquorRating = 0.0;
-        meatRating = 0.0;
-        produceRating = 0.0;
-        cheeseRating = 0.0;
-        checkoutRating = 0.0;
-        averageRating = 0.0;
+        liquorRating = 0;
+        meatRating = 0;
+        produceRating = 0;
+        cheeseRating = 0;
+        checkoutRating = 0;
+        averageRating = "0";
     }
 
     public int getMarketID() {
@@ -73,51 +72,51 @@ public class Market {
         zipCode = s;
     }
 
-    public double getLiquorRating() {
+    public float getLiquorRating() {
         return liquorRating;
     }
 
-    public void setLiquorRating(double d) {
+    public void setLiquorRating(float d) {
         liquorRating = d;
     }
 
-    public double getMeatRating() {
+    public float getMeatRating() {
         return meatRating;
     }
 
-    public void setMeatRating(double d) {
+    public void setMeatRating(float d) {
         meatRating = d;
     }
 
-   public double getProduceRating() {
+   public float getProduceRating() {
         return produceRating;
    }
 
-    public void setProduceRating(double d) {
+    public void setProduceRating(float d) {
         produceRating = d;
     }
 
-    public double getCheeseRating() {
+    public float getCheeseRating() {
         return cheeseRating;
     }
 
-    public void setCheeseRating(double d) {
+    public void setCheeseRating(float d) {
         cheeseRating = d;
     }
 
-    public double getCheckoutRating() {
+    public float getCheckoutRating() {
         return checkoutRating;
     }
 
-    public void setCheckoutRating(double d) {
+    public void setCheckoutRating(float d) {
         checkoutRating = d;
     }
 
-    public double getAverageRating() {
+    public String getAverageRating() {
         return averageRating;
     }
 
-    public void setAverageRating(double d) {
+    public void setAverageRating(String d) {
         averageRating = d;
     }
 }

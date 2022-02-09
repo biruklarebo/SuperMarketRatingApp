@@ -1,11 +1,13 @@
 package com.example.supermarket;
 
 import android.content.Intent;
+import android.media.Rating;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,8 +18,14 @@ public class RatingMarketActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        currentMarket = new Market();
         setContentView(R.layout.rating_bar);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null){
+            initMarket(extras.getInt("marketid"));
+        }
+        else{
+            currentMarket = new Market();
+        }
         final RatingBar rbLiquor = findViewById(R.id.ratingLiquor);
         rbLiquor.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
@@ -63,9 +71,10 @@ public class RatingMarketActivity extends AppCompatActivity {
                 currentMarket.setProduceRating(rbProduce.getRating());
                 currentMarket.setCheeseRating(rbCheese.getRating());
                 currentMarket.setCheckoutRating(rbCheckout.getRating());
-                final double r = (currentMarket.getLiquorRating() + currentMarket.getMeatRating() + currentMarket.getProduceRating() +
-                        currentMarket.getCheeseRating() + currentMarket.getCheckoutRating()) / 5.0;
-                currentMarket.setAverageRating(r);
+                final float r = (currentMarket.getLiquorRating() + currentMarket.getMeatRating() + currentMarket.getProduceRating() +
+                        currentMarket.getCheeseRating() + currentMarket.getCheckoutRating()) / 5;
+                String s = r + "";
+                currentMarket.setAverageRating(s);
                 String avg = r + "";
                 TextView averageRating = findViewById(R.id.textAvgRating);
                 averageRating.setText(avg);
@@ -80,6 +89,11 @@ public class RatingMarketActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     wasSuccessful = false;
                 }
+                if (wasSuccessful){
+                    Intent intent = new Intent(RatingMarketActivity.this, MarketListActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
             }
             });
         Button cancelButton = findViewById(R.id.cancelButton);
@@ -91,5 +105,30 @@ public class RatingMarketActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         }
+    private void initMarket(int id) {
+        MarketDataSource ds = new MarketDataSource(RatingMarketActivity.this);
+        try {
+            ds.open();
+            currentMarket = ds.getSpecificMarket(id);
+            ds.close();
+        } catch (Exception e) {
+            Toast.makeText(this, "Load Market Failed", Toast.LENGTH_LONG).show();
+        }
+        RatingBar liqRating = findViewById(R.id.ratingLiquor);
+        RatingBar meatRating = findViewById(R.id.ratingMeat);
+        RatingBar produceRating = findViewById(R.id.ratingProduce);
+        RatingBar cheeseRating = findViewById(R.id.ratingCheese);
+        RatingBar checkoutRating = findViewById(R.id.ratingCheckout);
+        TextView avgRating = findViewById(R.id.textAvgRating);
+
+        liqRating.setRating(currentMarket.getLiquorRating());
+        meatRating.setRating(currentMarket.getMeatRating());
+        produceRating.setRating(currentMarket.getProduceRating());
+        cheeseRating.setRating(currentMarket.getCheeseRating());
+        checkoutRating.setRating(currentMarket.getCheckoutRating());
+        String average = currentMarket.getAverageRating() + "";
+        avgRating.setText(average);
     }
+}
